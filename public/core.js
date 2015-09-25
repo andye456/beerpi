@@ -14,16 +14,16 @@ beerApp.controller('GraphCtrl',function($scope, $http, $interval, $timeout) {
 
 	var startDate = new Date();
 	var endDate = new Date();
-    	$scope.formData = {};
-	$scope.pingData = {};
+    $scope.formData = {};
+		$scope.pingData = {};
 
     // when landing on the page, get all beerdata and load into the $scope.beerdata variable
 
 	// Called when index.html is loaded this set the values in the start/end boxes to todays date
 	$scope.init = function() {
-//		$scope.formData.start=getStartDate(0);
-//		$scope.formData.end=getEndDate(0);
-//		$scope.reload();
+		$scope.formData.start=getStartDate(0);
+		$scope.formData.end=getEndDate(0);
+		$scope.reload();
 		$scope.pingData.start=getStartDate(0);
 		$scope.pingData.end=getEndDate(0);
 		$scope.reloadPingData();
@@ -99,7 +99,7 @@ beerApp.controller('GraphCtrl',function($scope, $http, $interval, $timeout) {
 	        $http.post('/api/dropped', $scope.pingData)
             .success(function(data) {
 					$scope.fails = data;
-					console.log(data);
+					//console.log(data);
 					})
 						.error(function(data) {
                 console.log('Error: ' + data);
@@ -141,7 +141,7 @@ beerApp.controller('GraphCtrl',function($scope, $http, $interval, $timeout) {
 	// Create the c3 chart from the data read from the REST call to /api/beerdata
 	var createPingChart = function(pdata) {
 		// This sets beerdata so that it can be used in the HTML page as beerdata
-	//	$scope.pingdata = pdata;
+		//$scope.beerdata = data;
 		$scope.pingchart = c3.generate({
 			bindto: '#pingchart',
 			data: {
@@ -168,7 +168,6 @@ beerApp.controller('GraphCtrl',function($scope, $http, $interval, $timeout) {
 						culling: {
 							max: 10
 						}
-						
 					}					
 				}
 			}
