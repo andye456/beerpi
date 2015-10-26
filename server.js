@@ -1,5 +1,6 @@
 //********************************************************************//
 //   RASPBERRY PI version!!!!!
+//   Temp monitor
 //********************************************************************//
 
 
@@ -52,7 +53,6 @@ require('./app/routes')(app);
 // every hour and writes this information along with the date/time to a Mongodb
 setInterval(readDataFromPi, 600000); // every 10 mins.
 
-setInterval(writePingDataToMongo,5000); // every 5 seconds
 
 function readDataFromPi() {
 		// read the temp from the data file
@@ -83,44 +83,7 @@ function readDataFromPi() {
 };
 
 
-var options = {
-    networkProtocol: ping.NetworkProtocol.IPv4,
-    packetSize: 16,
-    retries: 1,
-    sessionId: (process.pid % 65535),
-    timeout: 4000,
-    ttl: 128
-};
 
-var session = ping.createSession(options);
-function writePingDataToMongo() {
-	var target = "2.127.252.242";
-	session.pingHost (target, function (error, target, sent, rcvd) {
-	var ms = rcvd - sent;
-	var pingtime=0; // not really used.
-	if(error) {
-		if (error instanceof ping.RequestTimedOutError) {
-			//console.log (target + ": Not alive");
-			// Only log data if ping has been unsuccessful - only interested if dropped=true
-			var pingobj = {'date':getDateTime(), 'dropped':true};		
-			// Insert some data into the Mongodb
-			db.collection('pingdata').insert(pingobj, function (err, result) {
-				if (err) {
-					console.log(err);
-				} else {
-					console.log('Inserted %d documents into the "pingdata" collection. The documents inserted with "_id" are:', result.length, result);
-				}
-			});
-		} else {
-			console.log (target + ": " + error.toString ());
-		}
-	} else {
-		//console.log (target + ": Alive (ms=" + ms + ")");
-
-	}
-
-	});
-};
 
 function getDateTime() {
 
