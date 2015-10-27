@@ -35,7 +35,6 @@ beerApp.controller('GraphCtrl',function($scope, $http, $interval, $timeout) {
 					// This should smooth out the erronious data that is sometimes returned
 					for(var i=1; i<data.length; i++) {
 						if(data[i].temp > (data[i-1].temp+10) || data[i].temp < (data[i-1].temp-10) || toString(data[i].temp).split(".").length>1) {
-							alert("correction: "+data[i].temp+" to "+data[i-1].temp);
 							data[i].temp = data[i-1].temp;
 						} 
 					}
@@ -58,7 +57,6 @@ beerApp.controller('GraphCtrl',function($scope, $http, $interval, $timeout) {
 					// This should smooth out the erronious data that is sometimes returned
 					for(var i=1; i<data.length; i++) {
 						if(data[i].temp > (data[i-1].temp+10) || data[i].temp < (data[i-1].temp-10) || toString(data[i].temp).split(".").length>1) {
-							alert("correction: "+data[i].temp+" to "+data[i-1].temp);
 							data[i].temp = data[i-1].temp;
 						} 
 					}
